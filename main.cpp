@@ -9,9 +9,9 @@ char DEAD = ' ';
 
 
 void fillMap(char map[SIZE][SIZE]) {
-    for(int c = 0; c < SIZE; c++) {
-        for(int r = 0; r < SIZE; r++) {
-            cout << (map[c][r] = ((rand() % 2 == 1) ? 'm' : ' ')) << ' ';
+    for(int y = 0; y < SIZE; y++) {
+        for(int x = 0; x < SIZE; x++) {
+            cout << (map[y][x] = ((rand() % 2 == 1) ? 'm' : ' ')) << ' ';
         }
         cout << endl;
     }
@@ -21,58 +21,44 @@ void clearScreen() {
     cout << string( 20, '\n' );
 }
 
-int numNeighbors(char map[][SIZE], int c, int r) {
+bool isOnMap(int x, int y) {
+    return ((y >= 0 && y < SIZE) && (x >= 0 && x < SIZE));
+}
+
+int numLiveNeighbors(char map[][SIZE], int x, int y) {
+    int cycle[] = { -1, -1, -1, 0, 1, 1, 1, 0, -1, -1 };
     int sum = 0;
 
-    //left column
-    sum += map[c-1][r-1] == ALIVE ? 1 : 0;
-        cout << map[c-1][r-1] << endl;
-    sum += map[c][r-1] == ALIVE ? 1 : 0;
-        cout << map[c][r-1] << endl;
-    sum += map[c+1][r-1] == ALIVE ? 1 : 0;
-        cout << map[c+1][r-1] << endl;
-
-    //middle column
-    sum += map[c-1][r] == ALIVE ? 1 : 0;
-        cout << map[c-1][r] << endl;
-    sum += map[c+1][r] == ALIVE ? 1 : 0;
-        cout << map[c+1][r] << endl;
-
-    //right column
-    sum += map[c-1][r+1] == ALIVE ? 1 : 0;
-        cout << map[c-1][r+1] << endl;
-    sum += map[c][r+1] == ALIVE ? 1 : 0;
-        cout << map[c][r+1] << endl;
-    sum += map[c+1][r+1] == ALIVE ? 1 : 0;
-        cout << map[c+1][r+1] << endl;
-
+    for(int i = 0; i < 8; ++i) {
+        sum += (isOnMap(y + cycle[i], x + cycle[i + 2]) && map[y + cycle[i]][x + cycle[i + 2]] == ALIVE) ? 1 : 0;
+    }
     return sum;
 }
 
 int main()
 {
+    string q = "";
 
-
-    string q = "l";
     while(q != "q") {
-    char map[SIZE][SIZE];
-    fillMap(map);
 
-    //char test[5][5];
-    char test[5][5] = { { DEAD, DEAD, DEAD, DEAD, ALIVE },
-                        { DEAD, DEAD, DEAD, DEAD, DEAD },
-                        { DEAD, DEAD, DEAD, DEAD, DEAD },
-                        { DEAD, DEAD, DEAD, DEAD, DEAD },
-                        { DEAD, DEAD, DEAD, DEAD, DEAD }, };
+        char map[SIZE][SIZE];
+        fillMap(map);
 
+        //char test[5][5];
+        char test[5][5] = { { ALIVE, ALIVE, DEAD, DEAD, ALIVE },
+                            { ALIVE, ALIVE, DEAD, DEAD, ALIVE },
+                            { ALIVE, DEAD, DEAD, DEAD, DEAD },
+                            { DEAD, DEAD, DEAD, DEAD, DEAD },
+                            { DEAD, DEAD, DEAD, DEAD, DEAD }, };
 
+        cout << map[0][0] << endl;
+        cout << numLiveNeighbors(map, 2, 1) << endl;
+        cout << "SIZE: " << SIZE << endl;
+        cin >> q;
 
-    cout << map[1][1] << endl;
-    cout << numNeighbors(test, 0, 0) << endl;
-    cout << "SIZE: " << SIZE << endl;
-    cin >> q;
+        cout << isOnMap(4, 4);
 
-    clearScreen();
+        clearScreen();
     }
 }
 
