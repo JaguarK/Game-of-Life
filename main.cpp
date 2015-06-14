@@ -9,7 +9,7 @@
 #include <iostream>
 using namespace std;
 
-#define SIZE 25
+#define SIZE 100
 
 
 char ALIVE = '*';
@@ -51,10 +51,15 @@ void fillMap(char map[][SIZE]) {
 void updateMap(char map[][SIZE]) {
     for(int y = 0; y < SIZE; y++) {
         for(int x = 0; x < SIZE; x++) {
-            if( (map[y][x] == DEAD && numLiveNeighbors(map, x, y) == 3) ||
-                (map[y][x] == ALIVE && (numLiveNeighbors(map, x, y) == 2 || numLiveNeighbors(map, x, y) == 3)))
-            {   map[y][x] = ALIVE; }
-            else { map[y][x] = DEAD; }
+            if( map[y][x] == DEAD && numLiveNeighbors(map, x, y) == 3 ) {
+                map[y][x] = ALIVE;
+            }
+            else if( (map[y][x] == ALIVE && (numLiveNeighbors(map, x, y) == 2 || numLiveNeighbors(map, x, y) == 3))) {
+                map[y][x] = ALIVE;
+            }
+            else {
+                map[y][x] = DEAD;
+            }
         }
     }
 }
@@ -69,17 +74,18 @@ void printMap(char map[][SIZE]) {
 }
 
 
-
 int main()
 {
     char map[SIZE][SIZE];
     string q = "";
 
     fillMap(map);
+    printMap(map);
 
     while(q != "q") {
-        printMap(map);
         updateMap(map);
+        printMap(map);
+
         cin >> q;
         clearScreen();
     }
