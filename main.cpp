@@ -6,6 +6,8 @@
  *  at the Universitaet Stuttgart Informatik Machinelles Lernen und Robotik Labor
 */
 
+//TEST POOP GIT OPEN SAVED COMMIT
+
 #include <iostream>
 using namespace std;
 
@@ -48,7 +50,25 @@ void fillMap(char map[][SIZE]) {
     }
 }
 
+//char[][] updateMap(char map[][SIZE]) {
+//    nextGen[][SIZE];
+//    for(int y = 0; y < SIZE; y++) {
+//        for(int x = 0; x < SIZE; x++) {
+//            if( map[y][x] == DEAD && numLiveNeighbors(map, x, y) == 3 ) {
+//                nextGen[y][x] = ALIVE;
+//            }
+//            else if( (map[y][x] == ALIVE && (numLiveNeighbors(map, x, y) == 2 || numLiveNeighbors(map, x, y) == 3))) {
+//                nextGen[y][x] = ALIVE;
+//            }
+//            else {
+//                nextGen[y][x] = DEAD;
+//            }
+//        }
+//    }
+//}
+
 void updateMap(char map[][SIZE]) {
+
     for(int y = 0; y < SIZE; y++) {
         for(int x = 0; x < SIZE; x++) {
             if( map[y][x] == DEAD && numLiveNeighbors(map, x, y) == 3 ) {
